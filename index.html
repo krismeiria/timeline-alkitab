@@ -7,132 +7,126 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#d4a854;--gold-light:#f0d78c;--bg:#0a0a0f;--card-bg:rgba(255,255,255,0.025);--card-border:rgba(255,255,255,0.06);--text:#e8e6e3;--text-dim:#8a8a9a;--text-muted:#6a6a7a}
+:root{--gold:#d4a854;--gold-light:#f0d78c;--bg:#0a0a0f;--card-bg:rgba(255,255,255,0.025);--card-border:rgba(255,255,255,0.06);--text:#e8e6e3;--text-dim:#8a8a9a;--text-muted:#6a6a7a;--h:55%}
 
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow:hidden;height:100vh}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow:hidden;height:100vh;user-select:none}
 
-/* ═══════ HEADER ═══════ */
-.header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-border);padding:14px 24px}
-.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.header h1{font-family:'Playfair Display',serif;font-size:1.2rem;background:linear-gradient(135deg,var(--gold-light),var(--gold));background-clip:text;-webkit-background-clip:text;color:transparent;white-space:nowrap}
-.header h1 span{font-size:0.7rem;color:var(--text-muted);background:none;-webkit-background-clip:unset;background-clip:unset;font-family:'Inter',sans-serif;font-weight:300;display:none}
-.header-nav{display:flex;gap:4px;overflow-x:auto;padding:2px 0;scrollbar-width:none}
+/* ═══ HEADER ═══ */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--card-border);padding:12px 20px}
+.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header h1{font-family:'Playfair Display',serif;font-size:1.1rem;background:linear-gradient(135deg,var(--gold-light),var(--gold));background-clip:text;-webkit-background-clip:text;color:transparent;white-space:nowrap}
+.header-nav{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none}
 .header-nav::-webkit-scrollbar{display:none}
-
-.era-btn{flex-shrink:0;padding:5px 12px;border-radius:6px;border:1px solid var(--card-border);background:transparent;color:var(--text-dim);font-size:0.7rem;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.era-btn{flex-shrink:0;padding:4px 10px;border-radius:5px;border:1px solid var(--card-border);background:transparent;color:var(--text-dim);font-size:0.65rem;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap}
 .era-btn:hover{background:rgba(255,255,255,0.05);color:var(--text)}
 .era-btn.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
 
-/* ═══════ VIEWPORT ═══════ */
-.viewport{position:fixed;top:102px;left:0;right:0;bottom:0;overflow-x:auto;overflow-y:hidden;padding:0}
-.viewport::-webkit-scrollbar{height:6px}
+/* ═══ VIEWPORT ═══ */
+.viewport{position:fixed;top:78px;left:0;right:0;bottom:0;overflow-x:auto;overflow-y:hidden}
+.viewport::-webkit-scrollbar{height:4px}
 .viewport::-webkit-scrollbar-track{background:transparent}
-.viewport::-webkit-scrollbar-thumb{background:var(--card-border);border-radius:3px}
+.viewport::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
 
-/* ═══════ TRACK (the horizontal scrollable strip) ═══════ */
-.track{display:flex;align-items:stretch;height:100%;padding:20px 60px;gap:0;position:relative}
+/* ═══ TRACK ═══ */
+.track{display:flex;height:100%;padding:54px 30px 20px;align-items:center;position:relative;min-width:fit-content}
 
-/* Timeline line */
-.track::before{content:'';position:absolute;top:55%;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 2%,rgba(var(--gold),0.15) 5%,rgba(var(--gold),0.15) 95%,transparent);z-index:0}
+/* The horizontal spine — runs through the center */
+.spine{position:absolute;left:0;right:30px;top:var(--h);height:2px;background:linear-gradient(90deg,transparent 1%,rgba(212,168,84,0.12) 3%,rgba(212,168,84,0.12) 97%,transparent);pointer-events:none;z-index:0}
 
-/* Dotted progress dot */
-.progress-dot{position:fixed;top:50%;left:50%;width:18px;height:18px;background:var(--gold);border-radius:50%;transform:translate(-50%,-50%);z-index:5;border:3px solid var(--bg);pointer-events:none;box-shadow:0 0 20px rgba(212,168,84,0.3);display:none}
+/* ═══ ERA SEGMENT ═══ */
+.era-seg{display:flex;align-items:center;position:relative;height:100%;flex-shrink:0;z-index:1;padding:0 4px}
+.era-seg:first-child{padding-left:0}
+.era-seg:last-child{padding-right:0}
 
-/* ═══════ ERA COLUMN ═══════ */
-.era-col{display:flex;flex-direction:column;flex-shrink:0;position:relative;padding:0 4px;min-height:100%}
-.era-col:first-child{padding-left:0}
-.era-col:last-child{padding-right:0}
+/* Vertical era divider line */
+.era-divider{position:absolute;top:calc(var(--h) + 14px);left:50%;width:1px;height:calc(100% - var(--h) - 14px);background:var(--era-c);opacity:0.12;pointer-events:none}
+.era-divider-top{position:absolute;bottom:calc(100% - var(--h) - 12px);left:50%;width:1px;height:calc(var(--h) - 12px);background:var(--era-c);opacity:0.08;pointer-events:none}
 
-/* Era header label */
-.era-header{text-align:center;padding:8px 0;margin-bottom:8px;position:sticky;top:0;z-index:10}
-.era-header .era-name{font-family:'Playfair Display',serif;font-size:0.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;display:block}
-.era-header .era-years{font-size:0.6rem;color:var(--text-muted);font-weight:300;margin-top:1px;display:block}
+/* Era label above the line */
+.era-label{position:absolute;bottom:calc(100% - var(--h) + 8px);left:50%;transform:translateX(-50%);white-space:nowrap;text-align:center;z-index:5;pointer-events:none}
+.era-label .en{font-family:'Playfair Display',serif;font-size:0.6rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;display:block}
+.era-label .ey{font-size:0.5rem;color:var(--text-muted);font-weight:300;display:block;margin-top:1px}
+.era-label .dot{display:block;width:6px;height:6px;border-radius:50%;margin:3px auto 0}
 
-/* Era horizontal divider */
-.era-divider{height:2px;margin:0 8px 12px;border-radius:1px;opacity:0.6}
+/* ═══ EVENTS (proper zigzag - single flex row) ═══ */
+.events-row{display:flex;gap:6px;position:absolute;left:4px;right:4px;top:0;bottom:0;align-items:center}
 
-/* ═══════ EVENT CARDS CONTAINER (stacked vertically within era column) ═══════ */
-.events-stack{display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto;padding:0 4px 20px;scrollbar-width:thin}
-.events-stack::-webkit-scrollbar{width:3px}
-.events-stack::-webkit-scrollbar-thumb{background:var(--card-border);border-radius:2px}
+.ev-wrap{flex-shrink:0;width:148px;padding:0 2px;position:relative;align-self:center}
+.ev-wrap.top{align-self:flex-end;margin-bottom:calc(50% + 6px)}
+.ev-wrap.bot{align-self:flex-start;margin-top:calc(50% + 6px)}
 
-/* ═══════ EVENT CARD ═══════ */
-.event-card{flex-shrink:0;background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:10px 12px;cursor:pointer;transition:all 0.25s;position:relative;min-width:160px;max-width:180px}
-.event-card::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--era-color,#d4a854);border:2px solid var(--bg);z-index:2;transition:all 0.3s}
-.event-card:hover{background:rgba(255,255,255,0.06);border-color:var(--era-color,#d4a854);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.3)}
-.event-card:hover::before{box-shadow:0 0 16px var(--era-color,#d4a854);transform:translateX(-50%) scale(1.25)}
+/* Connector dot on spine */
+.ev-wrap::before{content:'';position:absolute;left:50%;width:8px;height:8px;border-radius:50%;background:var(--ev-c);border:2px solid var(--bg);z-index:3;transition:all 0.3s}
+.ev-wrap.top::before{bottom:-18px;transform:translateX(-50%)}
+.ev-wrap.bot::before{top:-18px;transform:translateX(-50%)}
+.ev-wrap:hover::before{box-shadow:0 0 14px var(--ev-c);transform:translateX(-50%) scale(1.35)}
 
-.event-card .date{font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:500;color:var(--era-color,#d4a854);margin-bottom:3px}
-.event-card .title{font-size:0.78rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:2px}
-.event-card .sub{font-size:0.62rem;color:var(--text-muted);line-height:1.4}
+/* Short connector line from dot to card */
+.ev-wrap::after{content:'';position:absolute;left:50%;width:1px;background:var(--ev-c);opacity:0.2;z-index:1}
+.ev-wrap.top::after{bottom:-14px;height:10px;transform:translateX(-50%)}
+.ev-wrap.bot::after{top:-14px;height:10px;transform:translateX(-50%)}
 
-/* Scroll indicator arrows */
-.scroll-arrow{display:none;position:fixed;top:55%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(212,168,84,0.1);border:1px solid rgba(212,168,84,0.2);color:var(--gold);font-size:1.2rem;cursor:pointer;z-index:50;transition:all 0.2s;align-items:center;justify-content:center}
+/* ═══ CARD ═══ */
+.ev-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:7px;padding:7px 8px;cursor:pointer;transition:all 0.25s;position:relative}
+.ev-card:hover{background:rgba(255,255,255,0.06);border-color:var(--ev-c);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+
+.ev-card .d{font-family:'JetBrains Mono',monospace;font-size:0.55rem;font-weight:500;color:var(--ev-c);margin-bottom:2px;opacity:0.8}
+.ev-card .t{font-size:0.72rem;font-weight:600;color:var(--text);line-height:1.25;margin-bottom:1px}
+.ev-card .s{font-size:0.58rem;color:var(--text-muted);line-height:1.3}
+.ev-card .ref-sm{font-size:0.5rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-top:3px;opacity:0.6}
+
+/* ═══ SCROLL ARROWS ═══ */
+.scroll-arrow{position:fixed;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(212,168,84,0.08);border:1px solid rgba(212,168,84,0.15);color:var(--gold);font-size:1.2rem;cursor:pointer;z-index:50;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
 .scroll-arrow:hover{background:rgba(212,168,84,0.2)}
-.scroll-arrow.left{left:10px;display:flex}
-.scroll-arrow.right{right:10px;display:flex}
+.scroll-arrow.left{left:8px}
+.scroll-arrow.right{right:8px}
 
-/* ═══════ MODAL ═══════ */
+/* ═══ MODAL ═══ */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:200;justify-content:center;align-items:center;padding:20px}
 .modal-overlay.open{display:flex}
-.modal{background:#14141e;border:1px solid var(--card-border);border-radius:16px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;padding:28px;position:relative;animation:modalIn 0.3s ease}
+.modal{background:#14141e;border:1px solid var(--card-border);border-radius:14px;max-width:480px;width:100%;max-height:75vh;overflow-y:auto;padding:24px;position:relative;animation:modalIn 0.25s ease}
 @keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;transition:color 0.2s;line-height:1}
+.modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer;transition:color 0.2s;line-height:1}
 .modal-close:hover{color:var(--text)}
-.modal-era{font-size:0.65rem;font-weight:500;letter-spacing:1px;color:var(--era-color,#d4a854);text-transform:uppercase;margin-bottom:4px}
-.modal-date{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);margin-bottom:8px}
-.modal-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.25}
-.modal-sub{font-size:0.85rem;color:var(--text-dim);margin-bottom:12px;font-weight:300}
-.modal-desc{font-size:0.85rem;color:var(--text);line-height:1.7;margin-bottom:12px}
-.modal-ref{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-muted);padding:6px 10px;background:rgba(255,255,255,0.03);border-radius:6px;display:inline-block}
-.modal-chapter-link{display:inline-block;margin-left:6px;color:var(--gold);font-size:0.7rem;text-decoration:none;font-family:'JetBrains Mono',monospace}
-.modal-chapter-link:hover{text-decoration:underline}
+.modal-era{font-size:0.6rem;font-weight:500;letter-spacing:1px;color:var(--ev-c);text-transform:uppercase;margin-bottom:3px}
+.modal-date{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-dim);margin-bottom:6px}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.2}
+.modal-sub{font-size:0.8rem;color:var(--text-dim);margin-bottom:10px;font-weight:300}
+.modal-desc{font-size:0.82rem;color:var(--text);line-height:1.65;margin-bottom:10px}
+.modal-ref{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);padding:5px 10px;background:rgba(255,255,255,0.03);border-radius:5px;display:inline-block}
 
-/* ═══════ RESPONSIVE ═══════ */
+/* ═══ RESPONSIVE ═══ */
 @media(max-width:768px){
-  .header{padding:10px 14px}
-  .header h1{font-size:1rem}
-  .era-btn{padding:4px 10px;font-size:0.65rem}
-  .viewport{top:96px}
-  .track{padding:10px 20px}
-  .event-card{min-width:130px;max-width:150px;padding:8px 10px}
-  .event-card .title{font-size:0.7rem}
+  .header{padding:8px 12px}
+  .header h1{font-size:0.95rem}
+  .era-btn{padding:3px 8px;font-size:0.6rem}
+  .viewport{top:74px}
+  .track{padding:40px 14px 14px}
+  .ev-wrap{width:120px}
+  .ev-card .t{font-size:0.65rem}
   .scroll-arrow{display:none!important}
 }
-
-/* ═══════ COLOR THEMES ═══════ */
-.era-1{--era-color:#d4a854}
-.era-2{--era-color:#6ad4a0}
-.era-3{--era-color:#4a9eff}
-.era-4{--era-color:#d48a7a}
-.era-5{--era-color:#d4a854}
-.era-6{--era-color:#c06050}
-.era-7{--era-color:#7ab8d4}
-.era-8{--era-color:#8a6ad4}
-.era-9{--era-color:#f0d78c}
 </style>
 </head>
 <body>
 
-<!-- ═══ HEADER ═══ -->
 <div class="header">
   <div class="header-top">
-    <h1>✦ Adam → Yesus <span>Timeline Alkitab</span></h1>
+    <h1>✦ Adam → Yesus</h1>
     <div class="header-nav" id="eraNav"></div>
   </div>
 </div>
 
-<!-- ═══ VIEWPORT ═══ -->
 <div class="viewport" id="viewport">
-  <div class="track" id="track"></div>
+  <div class="track" id="track">
+    <div class="spine"></div>
+  </div>
 </div>
 
-<!-- ═══ NAV ARROWS ═══ -->
 <button class="scroll-arrow left" id="scrollLeft">‹</button>
 <button class="scroll-arrow right" id="scrollRight">›</button>
 
-<!-- ═══ MODAL ═══ -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modal">
     <button class="modal-close" id="modalClose">✕</button>
@@ -146,198 +140,160 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overf
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// DATA — sama seperti versi vertikal
-// ═══════════════════════════════════════════════════
+const COLORS = ['#d4a854','#6ad4a0','#4a9eff','#d48a7a','#d4a854','#c06050','#7ab8d4','#8a6ad4','#f0d78c'];
+
 const DATA = [
-  {
-    id:1, era:"ERA I — AWAL MULA", years:"~ 4000 — 2166 SM", cls:"era-1",
-    events:[
-      {date:"~ 4000 SM", title:"Penciptaan", sub:"Langit, bumi, manusia", desc:"Allah menciptakan segala sesuatu dalam 6 hari. Adam & Hawa — gambar dan rupa Allah. Taman Eden.", ref:"Kejadian 1-2"},
-      {date:"~ 4000 SM", title:"Kejatuhan Manusia", sub:"Dosa masuk ke dunia", desc:"Ular menggoda Hawa. Kutuk dan janji pertama tentang 'Keturunan Perempuan' yang akan meremukkan kepala ular — Protoevangelium. Diusir dari Eden.", ref:"Kejadian 3"},
-      {date:"~ 3800 SM", title:"Kain & Habel", sub:"Pembunuhan pertama", desc:"Kain iri karena persembahan Habel diterima Tuhan, lalu membunuh adiknya. Dosa merembet.", ref:"Kejadian 4"},
-      {date:"~ 3000 SM", title:"Henokh & Metusalah", sub:"Berjalan dengan Allah", desc:"Henokh diangkat Tuhan. Metusalah hidup 969 tahun — namanya berarti 'ketika dia mati, itulah dia.'", ref:"Kejadian 5:21-24"},
-      {date:"~ 2350 SM", title:"Nuh & Air Bah", sub:"Bahtera & Perjanjian Pelangi", desc:"Allah menghakimi dunia jahat. Nuh membangun bahtera. 8 orang selamat. Perjanjian: pelangi.", ref:"Kejadian 6-9"},
-      {date:"~ 2200 SM", title:"Menara Babel", sub:"Bahasa dikacaukan", desc:"Manusia bersatu melawan Allah. Bahasa mereka dikacaukan, tersebar ke seluruh bumi.", ref:"Kejadian 11:1-9"}
-    ]
-  },
-  {
-    id:2, era:"ERA II — PARA BAPA LELUHUR", years:"~ 2166 — 1446 SM", cls:"era-2",
-    events:[
-      {date:"~ 2166 SM", title:"Allah Memanggil Abram", sub:"Dari Ur ke Kanaan", desc:"TUHAN memanggil Abram (75 thn) keluar dari Ur. Janji: bangsa besar, tanah, berkat bagi semua bangsa. Abram percaya = kebenaran.", ref:"Kejadian 12:1-3; 15:6"},
-      {date:"~ 2066 SM", title:"Ishak Lahir — Moria", sub:"Janji digenapi, iman diuji", desc:"Ishak lahir dari Sara mandul. Abraham diperintahkan mempersembahkan Ishak di Moria. TUHAN menyediakan domba jantan.", ref:"Kejadian 21-22"},
-      {date:"~ 2006 SM", title:"Yakub & Esau", sub:"Penipu menjadi Israel", desc:"Yakub (penipu) merebut hak kesulungan. Bergumul dengan Allah di Yabok — namanya diubah menjadi ISRAEL.", ref:"Kejadian 25:19-34; 32:22-32"},
-      {date:"~ 1898 SM", title:"Yusuf — Sumur ke Istana", sub:"Dijual → budak → wazir", desc:"Yusuf dijual saudaranya ke Mesir. Allah mengangkatnya jadi penguasa Mesir. 'Kamu mereka-reka jahat, Allah mereka-reka kebaikan.'", ref:"Kejadian 37-50"},
-      {date:"~ 1446 SM", title:"400 Tahun di Mesir", sub:"Dari 70 jiwa menjadi bangsa", desc:"Firaun baru tidak mengenal Yusuf — Israel diperbudak. TUHAN mendengar erangan umat-Nya.", ref:"Keluaran 1-2"}
-    ]
-  },
-  {
-    id:3, era:"ERA III — KELUARAN & TAURAT", years:"~ 1446 — 1380 SM", cls:"era-3",
-    events:[
-      {date:"~ 1525 SM", title:"Musa Lahir", sub:"Diselamatkan dari air", desc:"Bayi Musa ditaruh di keranjang Sungai Nil. Putri Firaun memungutnya. 40 tahun di istana, 40 tahun di padang gurun.", ref:"Keluaran 2"},
-      {date:"1446 SM", title:"10 Tulah & Paskah", sub:"'Biarkan umat-Ku pergi'", desc:"10 tulah vs dewa-dewa Mesir. Darah anak domba — Allah 'melewati' (Paskah). Fondasi keselamatan PL.", ref:"Keluaran 7-12"},
-      {date:"1446 SM", title:"Laut Teberau", sub:"Laut terbelah", desc:"Israel berjalan di dasar laut kering. Pasukan Mesir tenggelam. Nyanyian Musa & Miryam.", ref:"Keluaran 14-15"},
-      {date:"1446 SM", title:"Gunung Sinai", sub:"10 Perintah & Perjanjian", desc:"Allah turun ke Sinai. 10 Perintah. Mana, air dari batu. Kemah Suci.", ref:"Keluaran 19-40"},
-      {date:"~ 1406 SM", title:"40 Tahun Padang Gurun", sub:"Akibat ketidakpercayaan", desc:"12 pengintai — 10 bawa laporan buruk. Hukuman: setahun untuk sehari. Ular tembaga.", ref:"Bilangan 13-14"},
-      {date:"~ 1406 SM", title:"Musa Wafat — Yosua", sub:"Pemimpin baru", desc:"Musa melihat Kanaan dari Nebo. TUHAN menguburnya. Yosua = 'TUHAN menyelamatkan.'", ref:"Ulangan 34; Yosua 1"},
-      {date:"~ 1406 SM", title:"Yeriko Runtuh", sub:"Tembok runtuh karena iman", desc:"Keliling 7 hari. Tanduk domba – tembok runtuh. Allah berperang untuk Israel.", ref:"Yosua 2-6"}
-    ]
-  },
-  {
-    id:4, era:"ERA IV — ZAMAN HAKIM-HAKIM", years:"~ 1380 — 1050 SM", cls:"era-4",
-    events:[
-      {date:"~ 1380 SM", title:"Siklus Dosa — Hakim", sub:"Dosa → jajah → berseru → bebas", desc:"'Setiap orang melakukan apa yang benar menurut pandangannya sendiri.' Otniel, Ehud, dll.", ref:"Hakim-hakim 1-16"},
-      {date:"~ 1250 SM", title:"Debora", sub:"Satu-satunya hakim perempuan", desc:"Nabiah yang memimpin Israel. Nyanyian Debora — puisi tertua dalam Alkitab.", ref:"Hakim-hakim 4-5"},
-      {date:"~ 1175 SM", title:"Gideon & 300", sub:"Kemenangan mustahil", desc:"32.000 → 300 prajurit. Kendi, obor, sangkakala. Tapi Gideon jatuh dalam berhala.", ref:"Hakim-hakim 6-8"},
-      {date:"~ 1100 SM", title:"Rut & Naomi", sub:"Kisah kasih setia", desc:"Rut (Moab) bersumpah setia pada Naomi: 'Bangsamulah bangsaku, Allahmulah Allahku.' Nenek moyang Daud dan Yesus.", ref:"Kitab Rut"},
-      {date:"~ 1075 SM", title:"Simson", sub:"Kekuatan & kelemahan", desc:"Nazir Allah, kekuatan di rambut. Delila. Mati bersama musuh: lebih banyak daripada hidupnya.", ref:"Hakim-hakim 13-16"},
-      {date:"~ 1050 SM", title:"Samuel", sub:"Nabi terakhir zaman hakim", desc:"Anak doa Hana. Mengurapi Saul lalu Daud. Transisi dari hakim ke raja.", ref:"1 Samuel 1-16"}
-    ]
-  },
-  {
-    id:5, era:"ERA V — KERAJAAN BERSATU", years:"~ 1050 — 931 SM", cls:"era-5",
-    events:[
-      {date:"1050 SM", title:"Saul — Raja Pertama", sub:"Mulai baik, berakhir tragis", desc:"Israel minta raja 'seperti bangsa lain.' Saul gagal karena ketidaktaatan. Bunuh diri di Gilboa.", ref:"1 Samuel 8-31"},
-      {date:"~ 1025 SM", title:"Daud & Goliat", sub:"Gembala vs Raksasa", desc:"5 batu licin, satu umban. 'Engkau datang dengan pedang, aku datang dengan nama TUHAN.'", ref:"1 Samuel 16-17"},
-      {date:"1010 SM", title:"Daud Raja — Yerusalem", sub:"Perjanjian Daud", desc:"Merebut Yerusalem. Tabut dipindahkan. Janji: keturunan Daud di takhta selamanya — digenapi dalam Yesus.", ref:"2 Samuel 5-7"},
-      {date:"970 SM", title:"Salomo — Bait Suci", sub:"Hikmat, kemuliaan, kejatuhan", desc:"Salomo minta hikmat. Bait Suci dibangun 7 tahun. 1.000 istri — hatinya menyimpang.", ref:"1 Raja-raja 1-11"}
-    ]
-  },
-  {
-    id:6, era:"ERA VI — KERAJAAN TERBAGI", years:"~ 931 — 586 SM", cls:"era-6",
-    events:[
-      {date:"931 SM", title:"Israel vs Yehuda", sub:"10 suku vs 2 suku", desc:"Rehabeam keras — Yerobeam memberontak. Israel: anak lembu emas. Yehuda: campuran raja baik dan jahat.", ref:"1 Raja-raja 12"},
-      {date:"~ 870 SM", title:"Elia — Nabi Api", sub:"Melawan 450 nabi Baal", desc:"Karmel — api dari langit. Lari dari Izebel. Tuhan dalam 'bunyi angin sepoi.' Naik kereta api.", ref:"1 Raj 17-2 Raj 2"},
-      {date:"~ 760 SM", title:"Amos & Hosea", sub:"Keadilan & Kasih", desc:"'Keadilan bergulung seperti air.' Hosea menikahi sundal — gambaran hati Allah yang setia.", ref:"Amos; Hosea"},
-      {date:"~ 740 SM", title:"Yesaya — Mesianik", sub:"Melihat kemuliaan Allah", desc:"'Kudus, kudus, kudus.' Nubuat: Anak Perawan (7:14), Anak Lahir (9:5), Hamba Menderita (53). Paling banyak dikutip PB.", ref:"Kitab Yesaya"},
-      {date:"722 SM", title:"Israel Utara Jatuh", sub:"10 suku lenyap", desc:"Asyur menghancurkan Samaria. Rakyat diangkut — 10 suku hilang dari sejarah.", ref:"2 Raja-raja 17"},
-      {date:"~ 700 SM", title:"Hizkia — 185.000 Mati", sub:"Malaikat TUHAN", desc:"Sanherib mengepung. Hizkia membentangkan surat. Malaikat membunuh 185.000 tentara Asyur.", ref:"2 Raja-raja 18-19"},
-      {date:"~ 627 SM", title:"Yeremia — Nabi Air Mata", sub:"40 tahun tidak didengar", desc:"'Sebelum engkau kubentuk, Aku mengenal engkau.' Perjanjian Baru — Yer 31:31-34.", ref:"Kitab Yeremia"},
-      {date:"622 SM", title:"Yosia — Reformasi", sub:"Taurat ditemukan", desc:"Kitab Taurat ditemukan di Bait Suci. Yosia merobek pakaian — reformasi besar. Terlambat?", ref:"2 Raja-raja 22-23"},
-      {date:"605 SM", title:"Daniel — Dibuang", sub:"Remaja di istana Babel", desc:"Makan sayur. Tungku api. Gua singa. Nebukadnezar jadi binatang. Penglihatan Anak Manusia.", ref:"Kitab Daniel"},
-      {date:"586 SM", title:"Yerusalem Jatuh", sub:"Bait Suci hancur", desc:"Nebukadnezar membakar Bait Suci, merobohkan tembok. 70 tahun pembuangan.", ref:"2 Raja-raja 25"}
-    ]
-  },
-  {
-    id:7, era:"ERA VII — PEMBUANGAN & KEMBALI", years:"~ 586 — 400 SM", cls:"era-7",
-    events:[
-      {date:"~ 593 SM", title:"Yehezkiel", sub:"Kemuliaan TUHAN pergi & kembali", desc:"Melihat kavod YHWH meninggalkan Bait Suci. Tulang kering bisa hidup. Sungai dari Bait Suci.", ref:"Kitab Yehezkiel"},
-      {date:"539 SM", title:"Koresh — Dekrit", sub:"Yesaya nubuat 150 thn sebelumnya", desc:"Yehuda boleh pulang. Yesaya menulis nama Koresh 150 tahun sebelumnya (Yes 44:28).", ref:"Ezra 1; Yesaya 44-45"},
-      {date:"~ 520 SM", title:"Zerubabel & Hagai", sub:"Bait Suci selesai 516 SM", desc:"Zakharia: Raja di atas keledai (Za 9:9) — digenapi Yesus masuk Yerusalem.", ref:"Ezra 3-6; Hagai; Zakharia"},
-      {date:"~ 479 SM", title:"Ester", sub:"'Untuk saat seperti ini'", desc:"Ratu Yahudi selamatkan bangsanya. Allah tidak disebut — tapi bekerja di balik layar.", ref:"Kitab Ester"},
-      {date:"~ 445 SM", title:"Nehemia & Ezra", sub:"Tembok 52 hari", desc:"Nehemia bangun tembok. Ezra baca Taurat. Sanbalat & Tobia. Kebangunan rohani.", ref:"Kitab Nehemia"},
-      {date:"~ 430 SM", title:"Maleakhi — Nabi Terakhir", sub:"Aku akan mengutus Elia", desc:"Nabi terakhir PL. Janji: Elia akan datang — digenapi Yohanes Pembaptis. 400 tahun sunyi.", ref:"Maleakhi 3-4"}
-    ]
-  },
-  {
-    id:8, era:"ERA VIII — 400 TAHUN SENYAP", years:"~ 400 — 4 SM", cls:"era-8",
-    events:[
-      {date:"~ 400-332 SM", title:"Allah Diam", sub:"Tidak ada nabi", desc:"Tidak ada suara nabi selama 400+ tahun. Sinagoge berkembang. Pengharapan Mesias tetap menyala.", ref:"—"},
-      {date:"~ 332 SM", title:"Aleksander Agung", sub:"Yunani menguasai dunia", desc:"Bahasa Yunani (Koine) menyebar — nanti jadi bahasa PB. Helenisme.", ref:"—"},
-      {date:"~ 250 SM", title:"Septuaginta (LXX)", sub:"PL dalam bahasa Yunani", desc:"70 sarjana menterjemahkan Torah ke Yunani. Alkitab yang dipakai rasul-rasul.", ref:"—"},
-      {date:"~ 167 SM", title:"Pemberontakan Makabe", sub:"Bait Suci ditahbiskan", desc:"Antiokhus Epifanes menajiskan Bait Suci. Yudas Makabe melawan. Hanukkah.", ref:"1 & 2 Makabe"},
-      {date:"~ 63 SM", title:"Roma — Herodes", sub:"Raja boneka", desc:"Pompey merebut Yerusalem. Herodes Agung — mempercantik Bait Suci, membunuh bayi Betlehem.", ref:"—"},
-      {date:"~ 50 SM", title:"Farisi, Saduki, Esene", sub:"Kelompok agama Yahudi", desc:"Farisi (percaya kebangkitan), Saduki (hanya Torah), Esene (Qumran). Gulungan Laut Mati.", ref:"—"}
-    ]
-  },
-  {
-    id:9, era:"ERA IX — YESUS KRISTUS", years:"~ 4 SM — AD ~30", cls:"era-9",
-    events:[
-      {date:"~ 5 SM", title:"Yohanes Pembaptis", sub:"'Elia' yang dijanjikan", desc:"Zakharia & Elisabet — mandul melahirkan. Yohanes: suara yang berseru di padang gurun.", ref:"Lukas 1"},
-      {date:"~ 4 SM", title:"✧ YESUS LAHIR", sub:"Firman menjadi manusia", desc:"Betlehem, palungan, gembala, orang Majus. 'Hari ini telah lahir Juruselamat.'", ref:"Matius 1-2; Lukas 2"},
-      {date:"~ AD 26", title:"Yesus Dibaptis", sub:"'Inilah Anak-Ku yang Kukasihi'", desc:"Baptis di Yordan. Roh Kudus sebagai merpati. Suara Bapa. Iblis dicobai 40 hari.", ref:"Matius 3-4"},
-      {date:"~ AD 27-30", title:"3 Tahun Pelayanan", sub:"Mengajar & mujizat", desc:"12 murid, Khotbah di Bukit, perumpamaan, 5.000 diberi makan, Lazarus dibangkitkan.", ref:"Matius 5-25"},
-      {date:"~ AD 30", title:"Minggu Terakhir", sub:"Hosana → Salibkan Dia", desc:"Masuk Yerusalem di atas keledai. Perjamuan Terakhir. Getsemani. Yudas.", ref:"Matius 21-26"},
-      {date:"~ AD 30", title:"✝ SALIB", sub:"'Sudah selesai'", desc:"Disalibkan Golgota. Gelap gulita. Tirai Bait Suci terbelah. Dikuburkan.", ref:"Matius 27; Yohanes 19"},
-      {date:"~ AD 30", title:"✟ KEBANGKITAN", sub:"Kubur kosong!", desc:"'Ia tidak ada di sini — Ia telah bangkit!' Tomas: 'Tuhanku dan Allahku.' 500 saksi. Naik ke surga.", ref:"Matius 28; Yohanes 20-21"},
-      {date:"~ AD 30", title:"Amanat Agung", sub:"Pergi, jadikan murid", desc:"'Kepada-Ku telah diberikan segala kuasa. Karena itu pergilah, jadikanlah semua bangsa murid-Ku.'", ref:"Matius 28:19-20"}
-    ]
-  }
+  {era:"ERA I — AWAL MULA", years:"~ 4000 — 2166 SM", events:[
+    {date:"~ 4000 SM", t:"Penciptaan", s:"Langit, bumi, manusia", d:"Allah menciptakan segala sesuatu dalam 6 hari. Adam & Hawa — gambar dan rupa Allah. Taman Eden.", r:"Kejadian 1-2"},
+    {date:"~ 4000 SM", t:"Kejatuhan Manusia", s:"Dosa masuk ke dunia", d:"Ular menggoda Hawa. Kutuk dan janji pertama tentang 'Keturunan Perempuan' — Protoevangelium. Diusir dari Eden.", r:"Kejadian 3"},
+    {date:"~ 3800 SM", t:"Kain & Habel", s:"Pembunuhan pertama", d:"Kain iri karena persembahan Habel diterima Tuhan, lalu membunuh adiknya. Dosa merembet.", r:"Kejadian 4"},
+    {date:"~ 3000 SM", t:"Henokh & Metusalah", s:"Berjalan dengan Allah", d:"Henokh diangkat Tuhan. Metusalah 969 tahun — namanya berarti 'ketika dia mati, itulah dia.'", r:"Kejadian 5:21-24"},
+    {date:"~ 2350 SM", t:"Nuh & Air Bah", s:"Bahtera & Perjanjian Pelangi", d:"Allah menghakimi dunia jahat. Nuh membangun bahtera. 8 orang selamat. Perjanjian pelangi.", r:"Kejadian 6-9"},
+    {date:"~ 2200 SM", t:"Menara Babel", s:"Bahasa dikacaukan", d:"Manusia bersatu melawan Allah. Bahasa mereka dikacaukan, tersebar ke seluruh bumi.", r:"Kejadian 11:1-9"}
+  ]},
+  {era:"ERA II — PARA BAPA LELUHUR", years:"~ 2166 — 1446 SM", events:[
+    {date:"~ 2166 SM", t:"Allah Memanggil Abram", s:"Dari Ur ke Kanaan", d:"TUHAN memanggil Abram (75 thn) keluar dari Ur. Janji: bangsa besar, tanah, berkat bagi semua bangsa. Abram percaya = kebenaran.", r:"Kejadian 12:1-3; 15:6"},
+    {date:"~ 2066 SM", t:"Ishak Lahir — Moria", s:"Janji digenapi, iman diuji", d:"Ishak lahir dari Sara mandul. Abraham diperintahkan mempersembahkan Ishak di Moria. TUHAN menyediakan domba jantan.", r:"Kejadian 21-22"},
+    {date:"~ 2006 SM", t:"Yakub & Esau", s:"Penipu menjadi Israel", d:"Yakub (penipu) merebut hak kesulungan. Bergumul dengan Allah di Yabok — namanya diubah menjadi ISRAEL.", r:"Kejadian 25:19-34; 32:22-32"},
+    {date:"~ 1898 SM", t:"Yusuf — Sumur ke Istana", s:"Dijual → budak → wazir", d:'Yusuf dijual saudaranya ke Mesir. Allah mengangkatnya jadi penguasa Mesir. "Kamu mereka-reka jahat, Allah mereka-reka kebaikan."', r:"Kejadian 37-50"},
+    {date:"~ 1446 SM", t:"400 Tahun di Mesir", s:"Diperbudak", d:"Firaun baru tidak mengenal Yusuf. Israel diperbudak. TUHAN mendengar erangan umat-Nya.", r:"Keluaran 1-2"}
+  ]},
+  {era:"ERA III — KELUARAN & TAURAT", years:"~ 1446 — 1380 SM", events:[
+    {date:"~ 1525 SM", t:"Musa Lahir", s:"Diselamatkan dari air", d:"Bayi Musa ditaruh di keranjang Sungai Nil. Putri Firaun memungutnya. 40 tahun di istana, 40 tahun di padang gurun.", r:"Keluaran 2"},
+    {date:"1446 SM", t:"10 Tulah & Paskah", s:"'Biarkan umat-Ku pergi'", d:"10 tulah vs dewa-dewa Mesir. Darah anak domba — Allah 'melewati' (Paskah). Fondasi keselamatan PL.", r:"Keluaran 7-12"},
+    {date:"1446 SM", t:"Laut Teberau", s:"Laut terbelah", d:"Israel berjalan di dasar laut kering. Pasukan Mesir tenggelam. Nyanyian Musa & Miryam.", r:"Keluaran 14-15"},
+    {date:"1446 SM", t:"Gunung Sinai", s:"10 Perintah", d:"Allah turun ke Sinai. 10 Perintah. Mana, air dari batu. Kemah Suci.", r:"Keluaran 19-40"},
+    {date:"~ 1406 SM", t:"40 Tahun Padang Gurun", s:"Akibat ketidakpercayaan", d:"12 pengintai — 10 bawa laporan buruk. Ular tembaga — bayangan salib.", r:"Bilangan 13-14"},
+    {date:"~ 1406 SM", t:"Musa Wafat — Yosua", s:"Pemimpin baru", d:"Musa melihat Kanaan dari Nebo. TUHAN menguburnya. Yosua = 'TUHAN menyelamatkan.'", r:"Ulangan 34; Yosua 1"},
+    {date:"~ 1406 SM", t:"Yeriko Runtuh", s:"Tembok runtuh", d:"Keliling 7 hari. Tanduk domba — tembok runtuh. Allah berperang untuk Israel.", r:"Yosua 2-6"}
+  ]},
+  {era:"ERA IV — ZAMAN HAKIM-HAKIM", years:"~ 1380 — 1050 SM", events:[
+    {date:"~ 1380 SM", t:"Siklus Dosa", s:"Hakim-hakim", d:"'Setiap orang melakukan apa yang benar menurut pandangannya sendiri.' Otniel, Ehud, Debora, Gideon.", r:"Hakim-hakim 1-16"},
+    {date:"~ 1250 SM", t:"Debora", s:"Hakim perempuan", d:"Nabiah yang memimpin Israel. Nyanyian Debora — puisi tertua dalam Alkitab.", r:"Hakim-hakim 4-5"},
+    {date:"~ 1175 SM", t:"Gideon & 300", s:"Kemenangan mustahil", d:"32.000 → 300 prajurit. Kendi, obor, sangkakala. Tapi Gideon jatuh dalam berhala.", r:"Hakim-hakim 6-8"},
+    {date:"~ 1100 SM", t:"Rut & Naomi", s:"Kisah kasih setia", d:"Rut (Moab) bersumpah setia pada Naomi. 'Bangsamulah bangsaku, Allahmulah Allahku.' Nenek moyang Daud dan Yesus.", r:"Kitab Rut"},
+    {date:"~ 1075 SM", t:"Simson", s:"Nazir Allah", d:"Kekuatan di rambut. Delila. Mati bersama musuh: lebih banyak daripada hidupnya.", r:"Hakim-hakim 13-16"},
+    {date:"~ 1050 SM", t:"Samuel", s:"Nabi terakhir hakim", d:"Anak doa Hana. Mengurapi Saul lalu Daud. Transisi dari hakim ke raja.", r:"1 Samuel 1-16"}
+  ]},
+  {era:"ERA V — KERAJAAN BERSATU", years:"~ 1050 — 931 SM", events:[
+    {date:"1050 SM", t:"Saul — Raja Pertama", s:"Mulai baik, tragis", d:"Israel minta raja 'seperti bangsa lain.' Saul gagal karena ketidaktaatan. Bunuh diri di Gilboa.", r:"1 Samuel 8-31"},
+    {date:"~ 1025 SM", t:"Daud & Goliat", s:"Gembala vs Raksasa", d:"5 batu licin, satu umban. 'Engkau datang dengan pedang — aku datang dengan nama TUHAN.'", r:"1 Samuel 16-17"},
+    {date:"1010 SM", t:"Daud Raja — Yerusalem", s:"Perjanjian Daud", d:"Merebut Yerusalem. Tabut dipindahkan. Janji: keturunan Daud selamanya di takhta — digenapi dalam Yesus.", r:"2 Samuel 5-7"},
+    {date:"970 SM", t:"Salomo — Bait Suci", s:"Hikmat dan kejatuhan", d:"Salomo minta hikmat. Bait Suci dibangun 7 tahun. 1.000 istri — hatinya menyimpang pada dewa asing.", r:"1 Raja-raja 1-11"}
+  ]},
+  {era:"ERA VI — KERAJAAN TERBAGI", years:"~ 931 — 586 SM", events:[
+    {date:"931 SM", t:"Israel vs Yehuda", s:"10 suku vs 2 suku", d:"Rehabeam keras — Yerobeam memberontak. Israel: anak lembu emas. Yehuda: campuran raja baik-jahat.", r:"1 Raja-raja 12"},
+    {date:"~ 870 SM", t:"Elia — Nabi Api", s:"Melawan 450 nabi Baal", d:"Karmel — api dari langit. Lari dari Izebel. Tuhan dalam 'bunyi angin sepoi.' Naik kereta api.", r:"1 Raj 17 — 2 Raj 2"},
+    {date:"~ 760 SM", t:"Amos & Hosea", s:"Keadilan & Kasih", d:"'Keadilan bergulung seperti air.' Hosea menikahi sundal — gambaran Allah yang setia pada umat yang tidak setia.", r:"Amos; Hosea"},
+    {date:"~ 740 SM", t:"Yesaya — Mesianik", s:"Melihat kemuliaan Allah", d:"'Kudus, kudus, kudus.' Nubuat: Anak Perawan (7:14), Hamba Menderita (53). Paling banyak dikutip PB.", r:"Kitab Yesaya"},
+    {date:"722 SM", t:"Israel Utara Jatuh", s:"10 suku lenyap", d:"Asyur menghancurkan Samaria. Rakyat diangkut — 10 suku hilang dari sejarah.", r:"2 Raja-raja 17"},
+    {date:"~ 700 SM", t:"Hizkia — 185.000 Mati", s:"Malaikat TUHAN", d:"Sanherib mengepung. Hizkia membentangkan surat. Satu malam: malaikat membunuh 185.000 tentara.", r:"2 Raja-raja 18-19"},
+    {date:"~ 627 SM", t:"Yeremia — Nabi Air Mata", s:"40 tahun tidak didengar", d:"'Sebelum engkau kubentuk, Aku mengenal engkau.' Perjanjian Baru — Yer 31:31-34.", r:"Kitab Yeremia"},
+    {date:"622 SM", t:"Yosia — Reformasi", s:"Taurat ditemukan", d:"Kitab Taurat ditemukan di Bait Suci. Yosia merobek pakaian — reformasi besar. Tapi terlalu terlambat?", r:"2 Raja-raja 22-23"},
+    {date:"605 SM", t:"Daniel — Dibuang", s:"Remaja di Babel", d:"Makan sayur. Tungku api. Gua singa. Nebukadnezar jadi binatang. Penglihatan Anak Manusia.", r:"Kitab Daniel"},
+    {date:"586 SM", t:"Yerusalem Jatuh", s:"Bait Suci hancur", d:"Nebukadnezar membakar Bait Suci, merobohkan tembok. Bangsa Yehuda dibuang ke Babel 70 tahun.", r:"2 Raja-raja 25"}
+  ]},
+  {era:"ERA VII — PEMBUANGAN & KEMBALI", years:"~ 586 — 400 SM", events:[
+    {date:"~ 593 SM", t:"Yehezkiel", s:"Kemuliaan TUHAN pergi", d:"Melihat kavod YHWH meninggalkan Bait Suci. Tulang kering bisa hidup. Sungai dari Bait Suci.", r:"Kitab Yehezkiel"},
+    {date:"539 SM", t:"Koresh — Dekrit", s:"Yesaya nubuat 150 thn sebelumnya", d:"Yehuda boleh pulang. Yesaya menulis nama Koresh 150 tahun sebelumnya (Yes 44:28).", r:"Ezra 1; Yesaya 44-45"},
+    {date:"~ 520 SM", t:"Zerubabel & Hagai", s:"Bait Suci selesai 516 SM", d:"Zakharia: Raja di atas keledai (Za 9:9) — digenapi Yesus masuk Yerusalem.", r:"Ezra 3-6; Hagai"},
+    {date:"~ 479 SM", t:"Ester", s:"'Untuk saat seperti ini'", d:"Ratu Yahudi selamatkan bangsanya. Allah tidak disebut namanya — tapi jelas bekerja di balik layar.", r:"Kitab Ester"},
+    {date:"~ 445 SM", t:"Nehemia & Ezra", s:"Tembok 52 hari", d:"Nehemia bangun tembok. Ezra baca Taurat. Sanbalat & Tobia. Kebangunan rohani.", r:"Kitab Nehemia"},
+    {date:"~ 430 SM", t:"Maleakhi — Nabi Terakhir", s:"'Aku akan mengutus Elia'", d:"Nabi terakhir PL. Janji: Elia akan datang — digenapi Yohanes Pembaptis. 400 tahun sunyi setelah ini.", r:"Maleakhi 3-4"}
+  ]},
+  {era:"ERA VIII — 400 TAHUN SENYAP", years:"~ 400 — 4 SM", events:[
+    {date:"~ 400 SM", t:"Allah Diam", s:"Tidak ada nabi", d:"Tidak ada suara nabi selama 400+ tahun. Sinagoge berkembang. Pengharapan Mesias tetap menyala.", r:"—"},
+    {date:"~ 332 SM", t:"Aleksander Agung", s:"Yunani menguasai", d:"Bahasa Yunani (Koine) menyebar — nanti jadi bahasa PB. Helenisme.", r:"—"},
+    {date:"~ 250 SM", t:"Septuaginta (LXX)", s:"PL dalam bahasa Yunani", d:"70 sarjana menerjemahkan Torah ke Yunani. Alkitab yang dipakai rasul-rasul.", r:"—"},
+    {date:"~ 167 SM", t:"Pemberontakan Makabe", s:"Bait Suci ditahbiskan", d:"Antiokhus Epifanes menajiskan Bait Suci. Yudas Makabe. Hanukkah.", r:"1 & 2 Makabe"},
+    {date:"~ 63 SM", t:"Roma — Herodes", s:"Raja boneka", d:"Pompey merebut Yerusalem. Herodes Agung — mempercantik Bait Suci, membunuh bayi Betlehem.", r:"—"},
+    {date:"~ 50 SM", t:"Farisi, Saduki, Esene", s:"Kelompok agama", d:"Farisi (kebangkitan), Saduki (hanya Torah), Esene (Qumran — Gulungan Laut Mati).", r:"—"}
+  ]},
+  {era:"ERA IX — YESUS KRISTUS", years:"~ 4 SM — AD ~30", events:[
+    {date:"~ 5 SM", t:"Yohanes Pembaptis", s:"'Elia' yang dijanjikan", d:"Zakharia & Elisabet mandul melahirkan. Yohanes: suara yang berseru di padang gurun.", r:"Lukas 1"},
+    {date:"~ 4 SM", t:"✧ YESUS LAHIR", s:"Firman menjadi manusia", d:"Betlehem, palungan, gembala, orang Majus. 'Hari ini telah lahir Juruselamat.'", r:"Matius 1-2; Lukas 2"},
+    {date:"~ AD 26", t:"Yesus Dibaptis", s:"'Inilah Anak-Ku yang Kukasihi'", d:"Baptis di Yordan. Roh Kudus sebagai merpati. Suara Bapa. Iblis dicobai 40 hari.", r:"Matius 3-4"},
+    {date:"~ AD 27-30", t:"3 Tahun Pelayanan", s:"Mengajar & mujizat", d:"12 murid, Khotbah di Bukit, 5.000 diberi makan, Lazarus dibangkitkan.", r:"Matius 5-25"},
+    {date:"~ AD 30", t:"Minggu Terakhir", s:"Hosana → Salibkan Dia", d:"Masuk Yerusalem di atas keledai. Perjamuan Terakhir. Getsemani. Yudas.", r:"Matius 21-26"},
+    {date:"~ AD 30", t:"✝ SALIB", s:"'Sudah selesai'", d:"Disalibkan Golgota. Gelap gulita. Tirai Bait Suci terbelah. 'Ya Bapa, ke dalam tangan-Mu Kuserahkan nyawa-Ku.'", r:"Matius 27; Yohanes 19"},
+    {date:"~ AD 30", t:"✟ KEBANGKITAN", s:"Kubur kosong!", d:"'Ia tidak ada di sini — Ia telah bangkit!' Tomas: 'Tuhanku dan Allahku.' 500 saksi.", r:"Matius 28; Yohanes 20-21"},
+    {date:"~ AD 30", t:"Amanat Agung", s:"Pergi, jadikan murid", d:"'Kepada-Ku telah diberikan segala kuasa. Karena itu pergilah, jadikanlah semua bangsa murid-Ku.'", r:"Matius 28:19-20"}
+  ]}
 ];
 
-// ═══════════════════════════════════════════════════
-// BUILD
-// ═══════════════════════════════════════════════════
+// ═══ BUILD ═══
 const track = document.getElementById('track');
-const eraNav = document.getElementById('eraNav');
-const modalOverlay = document.getElementById('modalOverlay');
 const viewport = document.getElementById('viewport');
-
-// Era colors
-const COLORS = [
-  '#d4a854','#6ad4a0','#4a9eff','#d48a7a','#d4a854',
-  '#c06050','#7ab8d4','#8a6ad4','#f0d78c'
-];
+const eraNav = document.getElementById('eraNav');
+let allCards = []; // for modal mapping
 
 DATA.forEach((era, ei) => {
-  // Column
   const col = document.createElement('div');
-  col.className = `era-col ${era.cls}`;
-  col.dataset.era = era.id;
+  col.className = 'era-seg';
+  col.dataset.era = ei;
+  const c = COLORS[ei];
 
-  // Width based on number of events
-  const w = Math.max(180, era.events.length * 120);
+  // Width based on event count
+  const w = Math.max(140, era.events.length * 168);
   col.style.width = w + 'px';
+  col.style.setProperty('--era-c', c);
 
-  // Era header
-  const hdr = document.createElement('div');
-  hdr.className = 'era-header';
-  hdr.innerHTML = `<span class="era-name" style="color:${COLORS[ei]}">${era.era.replace('ERA','')}</span><span class="era-years">${era.years}</span>`;
-  col.appendChild(hdr);
+  // Era divider lines (top & bottom half)
+  const dv = document.createElement('div');
+  dv.className = 'era-divider';
+  col.appendChild(dv);
+  const dv2 = document.createElement('div');
+  dv2.className = 'era-divider-top';
+  col.appendChild(dv2);
 
-  // Divider
-  const div = document.createElement('div');
-  div.className = 'era-divider';
-  div.style.background = COLORS[ei];
-  col.appendChild(div);
+  // Era label
+  const lbl = document.createElement('div');
+  lbl.className = 'era-label';
+  lbl.innerHTML = `<span class="en" style="color:${c}">${era.era.replace('ERA ','')}</span><span class="ey">${era.years}</span><span class="dot" style="background:${c}"></span>`;
+  col.appendChild(lbl);
 
-  // Events stack
-  const stack = document.createElement('div');
-  stack.className = 'events-stack';
+  // Single row with alternating top/bottom
+  const row = document.createElement('div');
+  row.className = 'events-row';
 
   era.events.forEach((ev, vi) => {
+    const wrap = document.createElement('div');
+    wrap.className = `ev-wrap ${vi % 2 === 0 ? 'top' : 'bot'}`;
+    wrap.style.setProperty('--ev-c', c);
+
     const card = document.createElement('div');
-    card.className = 'event-card';
-    card.style.setProperty('--era-color', COLORS[ei]);
-    card.innerHTML = `<div class="date">${ev.date}</div><div class="title">${ev.title}</div><div class="sub">${ev.sub}</div>`;
+    card.className = 'ev-card';
+    card.innerHTML = `<div class="d">${ev.date}</div><div class="t">${ev.t}</div><div class="s">${ev.s}</div>`;
     card.addEventListener('click', () => openModal(era, ev, ei));
-    stack.appendChild(card);
+
+    wrap.appendChild(card);
+    allCards.push(wrap);
+    row.appendChild(wrap);
   });
 
-  col.appendChild(stack);
+  col.appendChild(row);
   track.appendChild(col);
 
   // Nav button
   const btn = document.createElement('button');
   btn.className = 'era-btn';
-  btn.textContent = era.era.replace(/—.*/, '').trim();
-  btn.dataset.era = era.id;
+  btn.textContent = era.era.replace(/ .*/,'').replace('ERA ','');
   btn.addEventListener('click', () => {
     col.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
   });
   eraNav.appendChild(btn);
 });
 
-// ═══════════════════════════════════════════════════
-// MODAL
-// ═══════════════════════════════════════════════════
+// ═══ MODAL ═══
 function openModal(era, ev, ei) {
   document.getElementById('modalEra').textContent = era.era;
   document.getElementById('modalDate').textContent = ev.date;
-  document.getElementById('modalTitle').textContent = ev.title;
-  document.getElementById('modalSub').textContent = ev.sub || '';
-  document.getElementById('modalDesc').textContent = ev.desc;
-
+  document.getElementById('modalTitle').textContent = ev.t;
+  document.getElementById('modalSub').textContent = ev.s || '';
+  document.getElementById('modalDesc').textContent = ev.d;
   const refEl = document.getElementById('modalRef');
-  refEl.innerHTML = '';
-  const refSpan = document.createElement('span');
-  refSpan.className = 'modal-ref';
-  refSpan.textContent = '📖 ' + (ev.ref || '—');
-  refEl.appendChild(refSpan);
-
-  const m = document.getElementById('modal');
-  m.style.setProperty('--era-color', COLORS[ei]);
-
+  refEl.innerHTML = `<span class="modal-ref">📖 ${ev.r || '—'}</span>`;
+  document.getElementById('modal').style.setProperty('--ev-c', COLORS[ei]);
   modalOverlay.classList.add('open');
 }
 
@@ -345,27 +301,19 @@ document.getElementById('modalClose').addEventListener('click', () => modalOverl
 modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) modalOverlay.classList.remove('open'); });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') modalOverlay.classList.remove('open'); });
 
-// ═══════════════════════════════════════════════════
-// SCROLL ARROWS
-// ═══════════════════════════════════════════════════
-document.getElementById('scrollLeft').addEventListener('click', () => viewport.scrollBy({left:-300, behavior:'smooth'}));
-document.getElementById('scrollRight').addEventListener('click', () => viewport.scrollBy({left:300, behavior:'smooth'}));
+document.getElementById('scrollLeft').addEventListener('click', () => viewport.scrollBy({left:-280, behavior:'smooth'}));
+document.getElementById('scrollRight').addEventListener('click', () => viewport.scrollBy({left:280, behavior:'smooth'}));
 
-// Update active nav on scroll
+// Active nav on scroll
 viewport.addEventListener('scroll', () => {
-  const cols = track.querySelectorAll('.era-col');
+  const segs = track.querySelectorAll('.era-seg');
   let activeIdx = 0;
-  cols.forEach((col, i) => {
-    const rect = col.getBoundingClientRect();
-    const center = rect.left + rect.width/2;
-    if(center < window.innerWidth/2 + 100) activeIdx = i;
+  segs.forEach((s, i) => {
+    const r = s.getBoundingClientRect();
+    if(r.left + r.width/2 < window.innerWidth/2 + 80) activeIdx = i;
   });
-  document.querySelectorAll('.era-btn').forEach((b, i) => {
-    b.classList.toggle('active', i === activeIdx);
-  });
+  document.querySelectorAll('.era-btn').forEach((b,i) => b.classList.toggle('active', i === activeIdx));
 });
-
-// Trigger initial
 viewport.dispatchEvent(new Event('scroll'));
 </script>
 </body>
